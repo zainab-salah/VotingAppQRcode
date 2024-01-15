@@ -1,0 +1,202 @@
+@font-face {
+    font-family: Rubik;
+    src: url("/fonts/Rubik-ExtraBold.tff");
+    font-weight: 800;
+}
+
+@font-face {
+    font-family: Rubik;
+    src: url("/fonts/Rubik-Bold.tff");
+    font-weight: 700;
+}
+@font-face {
+    font-family: Rubik;
+    src: url("/fonts/Rubik-SemiBold.tff");
+    font-weight: 600;
+}
+@font-face {
+    font-family: Rubik;
+    src: url("/fonts/Rubik-Medium.tff");
+    font-weight: 500;
+}
+@font-face {
+    font-family: Rubik;
+    src: url("/fonts/Rubik-Regular.tff");
+    font-weight: 400;
+}
+@font-face {
+    font-family: Rubik;
+    src: url("/fonts/Rubik-Light.tff");
+    font-weight: 300;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+body {
+    background-color: #280f50;
+    color: #dff2f9;
+    font-family: "Rubik", sans-serif;
+
+}
+.priamry {
+    color: #7c11f5;
+}
+.dark {
+    color: #280f50;
+}
+.light {
+    color: #dff2f9;
+}
+.primary-bg {
+    background-color: #7c11f5;
+}
+
+.dark-bg {
+    background-color: #280f50;
+}
+.light-bg {
+    background-color: #dff2f9;
+}
+
+.welcome-container {
+    animation: fadeIn 1.5s forwards, moveFromTop 1.5s forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes moveFromTop {
+    from {
+        transform: translate(-50%, -150%);
+    }
+    to {
+        transform: translate(-50%, 20%);
+    }
+}
+
+.button {
+    display: inline-block;
+    border-radius: 0px 15px 0px 15px;
+    background-color: #7c11f5 !important;
+    border: none;
+    color: #ffffff;
+    text-align: center;
+    font-size: 18px;
+    padding: 10px;
+    width: 200px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 5px;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+        rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+        rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+.button:hover {
+    background-color: #dff2f9 !important;
+    color: #7c11f5;
+    border-radius: 2px;
+}
+.voteBtn {
+    display: inline-block;
+    border-radius: 0px 10px 0px 10px;
+    background-color: #dff2f9 !important;
+    border: none;
+    color: #7c11f5;
+    text-align: center;
+    font-size: 18px;
+    padding: 10px;
+    width: 100px;
+    transition: all 0.5s;
+    cursor: pointer;
+font-weight: bold;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+        rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+        rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+.voteBtn:hover,
+.voteBtn:focus {
+    background-color: #a869f0d5 !important;
+    color: #fff;
+    border-radius: 2px;
+}
+
+.loader {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: inline-block;
+    position: relative;
+    border: 3px solid;
+    border-color: #fff #fff transparent transparent;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+}
+.loader::after,
+.loader::before {
+    content: "";
+    box-sizing: border-box;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    border: 3px solid;
+    border-color: transparent transparent #7c11f5 #7c11f5;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    box-sizing: border-box;
+    animation: rotationBack 0.5s linear infinite;
+    transform-origin: center center;
+}
+.loader::before {
+    width: 32px;
+    height: 32px;
+    border-color: #dff2f9 #dff2f9 transparent transparent;
+    animation: rotation 1.5s linear infinite;
+}
+
+@keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+@keyframes rotationBack {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(-360deg);
+    }
+}
+
+
+.lightbg{
+
+    position: absolute;
+    overflow: hidden;
+    left: 0;
+    width: 300px;
+    height: 300px;
+    bottom: 0;
+    z-index: -99990;
+    overflow: hidden !important;
+}
+
+
+#vote-form{
+    display: none;
+}

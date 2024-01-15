@@ -3,11 +3,10 @@
 namespace App\Http\Controllers;
 
  
-use App\Models\Vote; // Make sure to import the Vote model at the top of the file
+use App\Models\Vote;
 use Illuminate\Http\Request;
 class VoteController extends Controller
 {
-// app/Http/Controllers/VoteController.php
 
 public function showForm()
 {
@@ -32,7 +31,6 @@ public function submitVote(Request $request)
 
             return redirect()->back()->with('success', 'Vote submitted successfully.');
         } catch (\Exception $e) {
-            // Log the error or handle it as needed
             return redirect()->back()->with('error', 'Error submitting vote: ' . $e->getMessage());
         }
     }

@@ -15,12 +15,16 @@ use App\Http\Controllers\VoteController;
 */
 
 Route::get('/', function () {
-    return view('vote.form');
+    // return view('vote.form');
+    return view('welcome');
 });
 // routes/web.php
 
 
-
+Route::get('/vote', function () {
+     return view('vote.form');
+    
+});
 Route::get('/vote', [VoteController::class, 'showForm'])->name('show.vote.form');
 Route::post('/vote', [VoteController::class, 'submitVote'])->name('submit.vote');
 Route::view('/thankyou', 'thankyou')->name('thankyou');
