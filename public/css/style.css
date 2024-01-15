@@ -39,7 +39,6 @@ body {
     background-color: #280f50;
     color: #dff2f9;
     font-family: "Rubik", sans-serif;
-
 }
 .priamry {
     color: #7c11f5;
@@ -117,7 +116,7 @@ body {
     width: 100px;
     transition: all 0.5s;
     cursor: pointer;
-font-weight: bold;
+    font-weight: bold;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
         rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
         rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
@@ -183,9 +182,7 @@ font-weight: bold;
     }
 }
 
-
-.lightbg{
-
+.lightbg {
     position: absolute;
     overflow: hidden;
     left: 0;
@@ -196,38 +193,62 @@ font-weight: bold;
     overflow: hidden !important;
 }
 
-
-#vote-form{
+#vote-form {
     display: none;
 }
 
+.container {
+    padding: 10px !important;
+    border: none !important;
+}
+.text-red {
+    color: #a60909 !important;
+}
+#html5-qrcode-button-camera-permission {
+    padding: 5px 10px !important;
+    background-color: #109839 !important;
+    text-align: center;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 14px;
+    border: none !important;
+    cursor: pointer;
+}
+#html5-qrcode-button-camera-stop {
+    background-color: #a60909 !important;
+    padding: 4px 7px;
+    border-radius: 5px;
+    color: #fff;
+}
+#html5-qrcode-button-camera-start {
+    background-color: #109839 !important;
+    padding: 4px 7px;
+    border-radius: 5px;
+    color: #fff;
+}
+#my-qr-reader,
+#my-qr-reader__header_message {
+    border: none !important;
+}
 
- 
-#my-qr-reader {
-    padding: 20px !important;
-    border: 1.5px solid #b2b2b2 !important;
-    border-radius: 8px;
+#my-qr-reader__scan_region img,
+#html5-qrcode-anchor-scan-type-change {
+    display: none !important;
 }
- 
-#my-qr-reader img[alt="Info icon"] {
-    display: none;
-}
- 
+
 #my-qr-reader img[alt="Camera based scan"] {
     width: 100px !important;
     height: 100px !important;
 }
- 
- 
- 
+
 #html5-qrcode-anchor-scan-type-change {
     text-decoration: none !important;
     color: #1d9bf0;
 }
- .html5-qrcode-element{
+.html5-qrcode-element {
     background: red;
     color: #fff;
- }
+}
 video {
     width: 100% !important;
     border: 1px solid #b2b2b2 !important;
