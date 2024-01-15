@@ -93,7 +93,7 @@
      </form>
    </div>
 
-   <script type="text/javascript">
+   <!-- <script type="text/javascript">
      var videoContainer = document.getElementById('video-container');
      var loader = document.getElementById('loader');
      var voteForm = document.getElementById('vote-form');
@@ -136,7 +136,68 @@
 
        scanner.stop();
      });
-   </script>
+   </script> -->
+   <script type="text/javascript">
+  var videoContainer = document.getElementById('video-container');
+  var loader = document.getElementById('loader');
+  var voteForm = document.getElementById('vote-form');
+
+  function setVoteNumber(number) {
+    document.getElementById('vote_number').value = number;
+  }
+
+  function startScanner() {
+    Instascan.Camera.getCameras().then(function(cameras) {
+      console.log('Available Cameras:', cameras);  // Log cameras to console
+      if (cameras.length > 0) {
+        // Show the video, hide the loader and form
+        videoContainer.style.display = 'block';
+        loader.style.display = 'none';
+        voteForm.style.display = 'none';
+
+        navigator.mediaDevices.getUserMedia({ video: true }).then(function (stream) {
+          // Assign the stream to the video element
+          document.getElementById('preview').srcObject = stream;
+          
+          // Create a new Instascan Scanner
+          var scanner = new Instascan.Scanner({
+            video: document.getElementById('preview')
+          });
+
+          scanner.addListener('scan', function(content, image) {
+            loader.style.display = 'block';
+            console.log(content);
+            document.getElementById('user_id').value = content;
+
+            // Hide the video and loader, show the form
+            videoContainer.style.display = 'none';
+            loader.style.display = 'none';
+            voteForm.style.display = 'block';
+
+            scanner.stop();
+          });
+
+          scanner.start(cameras[0]);
+
+          // Stop the stream when the form is submitted
+          document.getElementById('vote-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            loader.style.display = 'black';
+            scanner.stop();
+            stream.getTracks().forEach(track => track.stop());
+          });
+        }).catch(function (error) {
+          console.error('Error accessing camera:', error);
+        });
+      } else {
+        console.error('No cameras found.');
+      }
+    });
+  }
+
+  // Start the scanner when the window is loaded
+  window.addEventListener('load', startScanner);
+</script>
 
 
  </body>
