@@ -6,8 +6,8 @@
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>تصويت</title>
    <script src="https://cdn.tailwindcss.com"></script>
-   <script type="text/javascript" src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
-
+   <!-- <script type="text/javascript" src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script> -->
+   <script src="{{ asset('script/html5-qrcode.js') }}"></script>
 
    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
@@ -38,29 +38,32 @@
    @if(session('error'))
    <div style="color: red;">
      <p class="text-red text-center">
+ 
        {{ session('error') }}
-       الرجاء قم بالتصويت بإستخدام QR مسجل لدى ابتكار.
+       <!-- الرجاء قم بالتصويت بإستخدام QR مسجل لدى ابتكار. -->
      </p>
    </div>
    @endif
 
    @if($errors->any())
+
    <p class="text-red text-center">
-     لقد قمت بالتصويت بالفعل!
+im number two
    <ul>
      @foreach($errors->all() as $error)
+    
      <li>{{ $error }}</li>
      @endforeach
    </ul>
    </p>
    @endif
 
-   <div class="flex items-center gap-y-5 justify-center flex-col  pt-20">
+   <div class="flex items-center gap-y-5 justify-center flex-col  pt-10">
 
-     <!-- <div class="relative text-center px-5" id="video-container"> -->
-     <h3 class=" pb-2 text-lg text-center">من اجل التصويت قم بقراءة الQR كود الذي بحوزتك</h3>
-     <video id="preview" class="rounded-tr-2xl rounded-bl-2xl z-50"></video>
-     <!-- </div> <span class="loader" id="loader"></span> -->
+
+     <h3 id="qrText" class="pb-2 text-lg text-center">من اجل التصويت قم بقراءة الQR كود الذي بحوزتك</h3>
+     <div style="width: 500px" id="reader"></div>
+     <span class="loader" id="loader"></span>
 
 
      <form id="vote-form" action="{{ route('submit.vote') }}" method="post" class="flex items-center px-5 justify-center flex-col">
@@ -91,64 +94,44 @@
        <br>
        <button type="submit" class="button">تصويت</button>
      </form>
-     <!-- </div> -->
-<p id="err"> </p>
-     <script type="text/javascript">
-       //  var videoContainer = document.getElementById('video-container');
-       var loader = document.getElementById('loader');
-       var voteForm = document.getElementById('vote-form');
-       let err = document.getElementById('err');
+   </div>
+   <script>
+     var resultContainer = document.getElementById('qr-reader-results');
+     const form = document.getElementById('vote-form')
+     const loader = document.getElementById('loader')
+     const qrText = document.getElementById('qrText')
 
-       function setVoteNumber(number) {
-         document.getElementById('vote_number').value = number;
-       }
-       var scanner = new Instascan.Scanner({
-         video: document.getElementById('preview')
+     var html5QrcodeScanner = new Html5QrcodeScanner(
+       "reader", {
+         fps: 10,
+         qrbox: 250
        });
 
-       scanner.addListener('scan', function(content, image) {
-         //  loader.style.display = 'block';
+     function onScanSuccess(decodedText, decodedResult) {
+       // Handle on success condition with the decoded text or result.
+       loader.style.display = 'block';
+       console.log(`Scan result: ${decodedText}`, decodedResult);
+       document.getElementById('user_id').value = decodedText;
+       qrText.style.display = 'none';
 
-         console.log(content);
-         document.getElementById('user_id').value = content;
+       html5QrcodeScanner.clear();
+       form.style.display = 'block';
+       loader.style.display = 'none';
 
-         // Hide the video and loader, show the form
-         //  videoContainer.style.display = 'none';
-         //  loader.style.display = 'none';
-         voteForm.style.display = 'block';
+     }
 
-         scanner.stop();
-       });
+     html5QrcodeScanner.render(onScanSuccess);
 
-       Instascan.Camera.getCameras().then(function(cameras) {
-         console.log(cameras)
-         err.value=cameras;
-         if (cameras.length > 0) {
-    
-           // Show the video, hide the loader and form
-           //  videoContainer.style.display = 'block';
-           //  loader.style.display = 'none';
-           voteForm.style.display = 'none';
-           if (cameras.length > 1) {
-            scanner.start(cameras[1]);
+     function setVoteNumber(number) {
+       document.getElementById('vote_number').value = number;
+     }
 
-        }
-        else if (cameras.length > 0) {
-            scanner.start(cameras[0]);
-        } else {
-            console.error('No cameras found.');
-        }
+     form.addEventListener('submit', function(e) {
 
-         }
-       });
-
-       document.getElementById('vote-form').addEventListener('submit', function(e) {
-        //  loader.style.display = 'block';
-         scanner.stop();
-       });
-     </script>
-
-
+       loader.style.display = 'block';
+       // html5QrcodeScanner.stop();
+     });
+   </script>
  </body>
 
  </html>

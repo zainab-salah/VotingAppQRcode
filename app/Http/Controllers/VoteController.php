@@ -24,7 +24,7 @@ public function submitVote(Request $request)
 
             $existingVote = Vote::where('user_id', $data['user_id'])->first();
             if ($existingVote) {
-                return redirect()->back()->with('error', 'You have already voted.');
+                return redirect()->back()->with('error', 'لقد قمت بالتصويت بالفعل');
             }
 
             Vote::create($data);
