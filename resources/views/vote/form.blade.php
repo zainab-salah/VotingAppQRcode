@@ -7,8 +7,9 @@
    <title>تصويت</title>
    <script src="https://cdn.tailwindcss.com"></script>
  
-   <script src="{{ asset('script/html5-qrcode.js') }}"></script>
-
+   <!-- <script src="{{ asset('script/html5-qrcode.js') }}"></script> -->
+  
+    <script src="https://unpkg.com/html5-qrcode@2.3.2/html5-qrcode.min.js" type="text/javascript"></script>
    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
  </head>
@@ -59,8 +60,14 @@
    @endif
 
    <div class="flex items-center gap-y-5 justify-center flex-col  pt-10">
-
-
+   <div class="container">
+        <h1>Scan QR Codes</h1>
+        <div class="section">
+            <div id="my-qr-reader">
+            </div>
+        </div>
+    </div>
+<!-- 
      <h3 id="qrText" class="pb-2 text-lg text-center">من اجل التصويت قم بقراءة الQR كود الذي بحوزتك</h3>
      <div style="width: 300px" id="reader"></div>
      <span class="loader" id="loader"></span>
@@ -93,9 +100,9 @@
 
        <br>
        <button type="submit" class="button">تصويت</button>
-     </form>
+     </form> -->
    </div>
-   <script>
+   <!-- <script>
      var resultContainer = document.getElementById('qr-reader-results');
      const form = document.getElementById('vote-form')
      const loader = document.getElementById('loader')
@@ -108,7 +115,7 @@
        });
 
      function onScanSuccess(decodedText, decodedResult) {
-       // Handle on success condition with the decoded text or result.
+        
        loader.style.display = 'block';
        console.log(`Scan result: ${decodedText}`, decodedResult);
        document.getElementById('user_id').value = decodedText;
@@ -129,8 +136,38 @@
      form.addEventListener('submit', function(e) {
 
        loader.style.display = 'block';
-       // html5QrcodeScanner.stop();
+       
      });
+   </script> -->
+   <script
+        src="https://unpkg.com/html5-qrcode">
+    </script>
+   <script>
+    function domReady(fn) {
+    if (
+        document.readyState === "complete" ||
+        document.readyState === "interactive"
+    ) {
+        setTimeout(fn, 1000);
+    } else {
+        document.addEventListener("DOMContentLoaded", fn);
+    }
+}
+ 
+domReady(function () {
+ 
+    // If found you qr code
+    function onScanSuccess(decodeText, decodeResult) {
+        alert("You Qr is : " + decodeText, decodeResult);
+        html5QrcodeScanner.clear();
+    }
+ 
+    let htmlscanner = new Html5QrcodeScanner(
+        "my-qr-reader",
+        { fps: 10, qrbos: 250 }
+    );
+    htmlscanner.render(onScanSuccess);
+});
    </script>
  </body>
 
