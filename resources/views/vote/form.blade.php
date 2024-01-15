@@ -6,7 +6,9 @@
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>تصويت</title>
    <script src="https://cdn.tailwindcss.com"></script>
+   <!-- <script type="text/javascript" src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script> -->
    <script type="text/javascript" src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
+
    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
  </head>
@@ -57,9 +59,9 @@
 
    <div class="flex items-center gap-y-5 justify-center flex-col  pt-20">
 
-     <div class="relative text-center px-5 " id="video-container">
+     <div class="relative text-center px-5" id="video-container">
        <h3 class=" pb-2 text-lg text-center">من اجل التصويت قم بقراءة الQR كود الذي بحوزتك</h3>
-       <video id="preview" class="rounded-tr-2xl rounded-bl-2xl "></video>
+       <video id="preview" class="rounded-tr-2xl rounded-bl-2xl z-50"></video>
      </div> <span class="loader" id="loader"></span>
 
 
@@ -148,15 +150,12 @@
 
      function startScanner() {
        Instascan.Camera.getCameras().then(function(cameras) {
-         console.log('Available Cameras:', cameras); // Log cameras to console
-
+         console.log('Available Cameras:', cameras);
          if (cameras.length > 0) {
+
            videoContainer.style.display = 'block';
            loader.style.display = 'none';
            voteForm.style.display = 'none';
-
-
-           // Show the video, hide the loader and form
 
            navigator.mediaDevices.getUserMedia({
              video: true
@@ -181,20 +180,11 @@
 
                scanner.stop();
              });
-
-             //  scanner.start(cameras[0]);
-             if (cameras.length > 0) {
-               var selectedCam = cameras[0];
-               $.each(cameras, (i, c) => {
-                 if (c.name.indexOf('back') !== -1) {
-                   selectedCam = c;
-                   return false;
-                 }
-               });
-
-               scanner.start(selectedCam);
+             if (cameras[1]) {
+               scanner.start(cameras[1]);
+             } else {
+               scanner.start(cameras[0]);
              }
-
              // Stop the stream when the form is submitted
              document.getElementById('vote-form').addEventListener('submit', function(e) {
                e.preventDefault();
