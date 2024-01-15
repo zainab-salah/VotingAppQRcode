@@ -6,8 +6,8 @@
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>تصويت</title>
    <script src="https://cdn.tailwindcss.com"></script>
-   <!-- <script type="text/javascript" src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script> -->
    <script type="text/javascript" src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
+
 
    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
@@ -31,16 +31,14 @@
 
 
    <script type="text/javascript">
-     // setTimeout(function () {
      window.location.href = "{{ route('thankyou') }}";
-     // }, 3000);  
    </script>
    @endif
 
    @if(session('error'))
    <div style="color: red;">
-     <!-- {{ session('error') }} -->
      <p class="text-red text-center">
+       {{ session('error') }}
        الرجاء قم بالتصويت بإستخدام QR مسجل لدى ابتكار.
      </p>
    </div>
@@ -49,20 +47,20 @@
    @if($errors->any())
    <p class="text-red text-center">
      لقد قمت بالتصويت بالفعل!
-     <!-- <ul>
-       @foreach($errors->all() as $error)
-       <li>{{ $error }}</li>
-       @endforeach
-     </ul> -->
+   <ul>
+     @foreach($errors->all() as $error)
+     <li>{{ $error }}</li>
+     @endforeach
+   </ul>
    </p>
    @endif
 
    <div class="flex items-center gap-y-5 justify-center flex-col  pt-20">
 
-     <div class="relative text-center px-5" id="video-container">
-       <h3 class=" pb-2 text-lg text-center">من اجل التصويت قم بقراءة الQR كود الذي بحوزتك</h3>
-       <video id="preview" class="rounded-tr-2xl rounded-bl-2xl z-50"></video>
-     </div> <span class="loader" id="loader"></span>
+     <!-- <div class="relative text-center px-5" id="video-container"> -->
+     <h3 class=" pb-2 text-lg text-center">من اجل التصويت قم بقراءة الQR كود الذي بحوزتك</h3>
+     <video id="preview" class="rounded-tr-2xl rounded-bl-2xl z-50"></video>
+     <!-- </div> <span class="loader" id="loader"></span> -->
 
 
      <form id="vote-form" action="{{ route('submit.vote') }}" method="post" class="flex items-center px-5 justify-center flex-col">
@@ -93,52 +91,59 @@
        <br>
        <button type="submit" class="button">تصويت</button>
      </form>
-   </div>
+     <!-- </div> -->
 
-  <script type="text/javascript">
-     var videoContainer = document.getElementById('video-container');
-     var loader = document.getElementById('loader');
-     var voteForm = document.getElementById('vote-form');
+     <script type="text/javascript">
+       //  var videoContainer = document.getElementById('video-container');
+       var loader = document.getElementById('loader');
+       var voteForm = document.getElementById('vote-form');
 
-     function setVoteNumber(number) {
-       document.getElementById('vote_number').value = number;
-     }
-     var scanner = new Instascan.Scanner({
-       video: document.getElementById('preview')
-     });
-
-     scanner.addListener('scan', function(content, image) {
-      loader.style.display = 'block';
-
-       console.log(content);
-       document.getElementById('user_id').value = content;
-
-       // Hide the video and loader, show the form
-       videoContainer.style.display = 'none';
-       loader.style.display = 'none';
-       voteForm.style.display = 'block';
-
-       scanner.stop();
-     });
-
-     Instascan.Camera.getCameras().then(function(cameras) {
-       if (cameras.length > 0) {
-         // Show the video, hide the loader and form
-         videoContainer.style.display = 'block';
-         loader.style.display = 'none';
-         voteForm.style.display = 'none';
-
-         scanner.start(cameras[0]);
-       
+       function setVoteNumber(number) {
+         document.getElementById('vote_number').value = number;
        }
-     });
+       var scanner = new Instascan.Scanner({
+         video: document.getElementById('preview')
+       });
 
-     document.getElementById('vote-form').addEventListener('submit', function(e) {
-       loader.style.display = 'black';
+       scanner.addListener('scan', function(content, image) {
+         //  loader.style.display = 'block';
 
-       scanner.stop();
-     });
-   </script> 
+         console.log(content);
+         document.getElementById('user_id').value = content;
+
+         // Hide the video and loader, show the form
+         //  videoContainer.style.display = 'none';
+         //  loader.style.display = 'none';
+         voteForm.style.display = 'block';
+
+         scanner.stop();
+       });
+
+       Instascan.Camera.getCameras().then(function(cameras) {
+         console.log(cameras)
+         if (cameras.length > 0) {
+
+           // Show the video, hide the loader and form
+           //  videoContainer.style.display = 'block';
+           //  loader.style.display = 'none';
+           voteForm.style.display = 'none';
+           if (cameras[2]) {
+             scanner.start(cameras[2])
+           } else if (cameras[1]) {
+             scanner.start(cameras[1])
+           } else {
+             scanner.start(cameras[0]);
+             //  scanner.start(cameras[0
+           }
+
+         }
+       });
+
+       document.getElementById('vote-form').addEventListener('submit', function(e) {
+        //  loader.style.display = 'block';
+         scanner.stop();
+       });
+     </script>
 
 
  </body>
