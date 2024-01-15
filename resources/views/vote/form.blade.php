@@ -6,7 +6,7 @@
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>تصويت</title>
    <script src="https://cdn.tailwindcss.com"></script>
-   <!-- <script type="text/javascript" src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script> -->
+ 
    <script src="{{ asset('script/html5-qrcode.js') }}"></script>
 
    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
@@ -38,7 +38,7 @@
    @if(session('error'))
    <div style="color: red;">
      <p class="text-red text-center">
- 
+
        {{ session('error') }}
        <!-- الرجاء قم بالتصويت بإستخدام QR مسجل لدى ابتكار. -->
      </p>
@@ -48,10 +48,10 @@
    @if($errors->any())
 
    <p class="text-red text-center">
-im number two
+     im number two
    <ul>
      @foreach($errors->all() as $error)
-    
+
      <li>{{ $error }}</li>
      @endforeach
    </ul>
@@ -62,7 +62,7 @@ im number two
 
 
      <h3 id="qrText" class="pb-2 text-lg text-center">من اجل التصويت قم بقراءة الQR كود الذي بحوزتك</h3>
-     <div style="width: 500px" id="reader"></div>
+     <div style="width: 300px" id="reader"></div>
      <span class="loader" id="loader"></span>
 
 
