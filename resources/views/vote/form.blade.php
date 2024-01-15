@@ -20,10 +20,10 @@
    <h2 class="text-2xl light text-center pt-10 font-semibold">تصويت</h2>
 
    @if(session('success'))
-   <div  >
+   <div>
      {{ session('success') }}
-     <p class="text-green text-center">        
-    تم التصويت بنجاح
+     <p class="text-green text-center">
+       تم التصويت بنجاح
      </p>
    </div>
 
@@ -38,25 +38,25 @@
    @if(session('error'))
    <div style="color: red;">
      <!-- {{ session('error') }} -->
-     <p class="text-red text-center">        
-      الرجاء قم بالتصويت بإستخدام QR مسجل لدى ابتكار.
+     <p class="text-red text-center">
+       الرجاء قم بالتصويت بإستخدام QR مسجل لدى ابتكار.
      </p>
    </div>
    @endif
 
    @if($errors->any())
-   <p class="text-red text-center">   
-    لقد قمت بالتصويت بالفعل!
+   <p class="text-red text-center">
+     لقد قمت بالتصويت بالفعل!
      <!-- <ul>
        @foreach($errors->all() as $error)
        <li>{{ $error }}</li>
        @endforeach
      </ul> -->
-     </p>
+   </p>
    @endif
 
    <div class="flex items-center gap-y-5 justify-center flex-col  pt-20">
-     
+
      <div class="relative text-center px-5 " id="video-container">
        <h3 class=" pb-2 text-lg text-center">من اجل التصويت قم بقراءة الQR كود الذي بحوزتك</h3>
        <video id="preview" class="rounded-tr-2xl rounded-bl-2xl "></video>
@@ -138,66 +138,76 @@
      });
    </script> -->
    <script type="text/javascript">
-  var videoContainer = document.getElementById('video-container');
-  var loader = document.getElementById('loader');
-  var voteForm = document.getElementById('vote-form');
+     var videoContainer = document.getElementById('video-container');
+     var loader = document.getElementById('loader');
+     var voteForm = document.getElementById('vote-form');
 
-  function setVoteNumber(number) {
-    document.getElementById('vote_number').value = number;
-  }
+     function setVoteNumber(number) {
+       document.getElementById('vote_number').value = number;
+     }
 
-  function startScanner() {
-    Instascan.Camera.getCameras().then(function(cameras) {
-      console.log('Available Cameras:', cameras);  // Log cameras to console
-      if (cameras.length > 0) {
-        // Show the video, hide the loader and form
-        videoContainer.style.display = 'block';
-        loader.style.display = 'none';
-        voteForm.style.display = 'none';
+     function startScanner() {
+       Instascan.Camera.getCameras().then(function(cameras) {
+         console.log('Available Cameras:', cameras); // Log cameras to console
 
-        navigator.mediaDevices.getUserMedia({ video: true }).then(function (stream) {
-          // Assign the stream to the video element
-          document.getElementById('preview').srcObject = stream;
-          
-          // Create a new Instascan Scanner
-          var scanner = new Instascan.Scanner({
-            video: document.getElementById('preview')
-          });
+         if (cameras.length > 0) {
+           videoContainer.style.display = 'block';
+           loader.style.display = 'none';
+           voteForm.style.display = 'none';
 
-          scanner.addListener('scan', function(content, image) {
-            loader.style.display = 'block';
-            console.log(content);
-            document.getElementById('user_id').value = content;
 
-            // Hide the video and loader, show the form
-            videoContainer.style.display = 'none';
-            loader.style.display = 'none';
-            voteForm.style.display = 'block';
+           // Show the video, hide the loader and form
 
-            scanner.stop();
-          });
+           navigator.mediaDevices.getUserMedia({
+             video: true
+           }).then(function(stream) {
+             // Assign the stream to the video element
+             document.getElementById('preview').srcObject = stream;
 
-          scanner.start(cameras[0]);
+             // Create a new Instascan Scanner
+             var scanner = new Instascan.Scanner({
+               video: document.getElementById('preview')
+             });
 
-          // Stop the stream when the form is submitted
-          document.getElementById('vote-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            loader.style.display = 'black';
-            scanner.stop();
-            stream.getTracks().forEach(track => track.stop());
-          });
-        }).catch(function (error) {
-          console.error('Error accessing camera:', error);
-        });
-      } else {
-        console.error('No cameras found.');
-      }
-    });
-  }
+             scanner.addListener('scan', function(content, image) {
+               loader.style.display = 'block';
+               console.log(content);
+               document.getElementById('user_id').value = content;
 
-  // Start the scanner when the window is loaded
-  window.addEventListener('load', startScanner);
-</script>
+               // Hide the video and loader, show the form
+               videoContainer.style.display = 'none';
+               loader.style.display = 'none';
+               voteForm.style.display = 'block';
+
+               scanner.stop();
+             });
+
+             //  scanner.start(cameras[0]);
+             if (cameras[1]) {
+               scanner.start(cameras[1]);
+             } else {
+               scanner.start(cameras[0]);
+             }
+
+             // Stop the stream when the form is submitted
+             document.getElementById('vote-form').addEventListener('submit', function(e) {
+               e.preventDefault();
+               loader.style.display = 'black';
+               scanner.stop();
+               stream.getTracks().forEach(track => track.stop());
+             });
+           }).catch(function(error) {
+             console.error('Error accessing camera:', error);
+           });
+         } else {
+           console.error('No cameras found.');
+         }
+       });
+     }
+
+     // Start the scanner when the window is loaded
+     window.addEventListener('load', startScanner);
+   </script>
 
 
  </body>
