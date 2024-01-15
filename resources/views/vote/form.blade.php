@@ -92,11 +92,12 @@
        <button type="submit" class="button">تصويت</button>
      </form>
      <!-- </div> -->
-
+<p id="err"> </p>
      <script type="text/javascript">
        //  var videoContainer = document.getElementById('video-container');
        var loader = document.getElementById('loader');
        var voteForm = document.getElementById('vote-form');
+       let err = document.getElementById('err');
 
        function setVoteNumber(number) {
          document.getElementById('vote_number').value = number;
@@ -121,20 +122,22 @@
 
        Instascan.Camera.getCameras().then(function(cameras) {
          console.log(cameras)
+         err.value=cameras;
          if (cameras.length > 0) {
-
+    
            // Show the video, hide the loader and form
            //  videoContainer.style.display = 'block';
            //  loader.style.display = 'none';
            voteForm.style.display = 'none';
-           if (cameras[2]) {
-             scanner.start(cameras[2])
-           } else if (cameras[1]) {
-             scanner.start(cameras[1])
-           } else {
-             scanner.start(cameras[0]);
-             //  scanner.start(cameras[0
-           }
+           if (cameras.length > 1) {
+            scanner.start(cameras[1]);
+
+        }
+        else if (cameras.length > 0) {
+            scanner.start(cameras[0]);
+        } else {
+            console.error('No cameras found.');
+        }
 
          }
        });
