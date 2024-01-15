@@ -183,10 +183,16 @@
              });
 
              //  scanner.start(cameras[0]);
-             if (cameras[1]) {
-               scanner.start(cameras[1]);
-             } else {
-               scanner.start(cameras[0]);
+             if (cameras.length > 0) {
+               var selectedCam = cameras[0];
+               $.each(cameras, (i, c) => {
+                 if (c.name.indexOf('back') !== -1) {
+                   selectedCam = c;
+                   return false;
+                 }
+               });
+
+               scanner.start(selectedCam);
              }
 
              // Stop the stream when the form is submitted
